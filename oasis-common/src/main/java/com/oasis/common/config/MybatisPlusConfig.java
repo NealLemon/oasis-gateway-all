@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @Date 2022/4/7 17:27
  */
 @Configuration
-@MapperScan(basePackages = "org.oasis.common.mapper")
+@MapperScan(basePackages = "com.oasis.common.mapper")
 public class MybatisPlusConfig {
 
     /**

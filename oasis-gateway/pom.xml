@@ -45,6 +45,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.oasis</groupId>
+            <artifactId>oasis-common</artifactId>
+            <version>${oasis.version}</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.oasis</groupId>-->
 <!--            <artifactId>gateway-common</artifactId>-->

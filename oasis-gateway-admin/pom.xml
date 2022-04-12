@@ -55,6 +55,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.oasis</groupId>
+            <artifactId>oasis-common</artifactId>
+            <version>${oasis.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

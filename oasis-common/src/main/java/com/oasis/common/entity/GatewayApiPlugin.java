@@ -1,9 +1,10 @@
 package com.oasis.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.ibatis.type.JdbcType;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -39,7 +40,8 @@ public class GatewayApiPlugin implements Serializable {
     /**
      * plugin相关配置
      */
-    private String pluginConfiguration;
+    @TableField(typeHandler = JacksonTypeHandler.class,jdbcType = JdbcType.JAVA_OBJECT)
+    private JsonNode pluginConfiguration;
 
     /**
      * plugin 定义的类别
@@ -112,11 +114,11 @@ public class GatewayApiPlugin implements Serializable {
         this.pluginName = pluginName;
     }
 
-    public String getPluginConfiguration() {
+    public JsonNode getPluginConfiguration() {
         return pluginConfiguration;
     }
 
-    public void setPluginConfiguration(String pluginConfiguration) {
+    public void setPluginConfiguration(JsonNode pluginConfiguration) {
         this.pluginConfiguration = pluginConfiguration;
     }
 

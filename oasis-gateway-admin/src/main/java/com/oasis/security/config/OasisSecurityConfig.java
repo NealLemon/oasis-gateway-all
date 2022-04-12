@@ -1,6 +1,7 @@
 package com.oasis.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oasis.common.vo.OasisResponseVO;
 import com.oasis.security.converter.DefaultJwtAuthenticationConverter;
 import com.oasis.security.entrypoint.DefaultJwtAuthenticationEntryPoint;
 import com.oasis.security.filter.DefaultJwtAuthenticationFilter;
@@ -8,21 +9,18 @@ import com.oasis.security.filter.RestAuthenticationFilter;
 import com.oasis.security.provider.DefaultJwtAuthenticationProvider;
 import com.oasis.security.service.EnvironmentUserService;
 import com.oasis.security.util.JwtUtil;
-import com.oasis.vo.OasisResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -104,8 +102,8 @@ public class OasisSecurityConfig extends WebSecurityConfigurerAdapter {
         return (req, res, auth) -> {
             res.setStatus(HttpStatus.OK.value());
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            OasisResponseVO<Authentication> oasisResponseVO = new OasisResponseVO<>(200,"success",auth);
-            res.getWriter().write(objectMapper.writeValueAsString(oasisResponseVO));
+            res.setCharacterEncoding("UTF8");
+            res.getWriter().write(objectMapper.writeValueAsString(OasisResponseVO.success(auth)));
             log.debug("认证成功");
         };
     }
@@ -117,18 +115,19 @@ public class OasisSecurityConfig extends WebSecurityConfigurerAdapter {
             }
             res.setStatus(HttpStatus.OK.value());
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            OasisResponseVO<Authentication> oasisResponseVO = new OasisResponseVO<Authentication>(200,"success",auth);
+            res.setCharacterEncoding("UTF8");
+            res.getWriter().write(objectMapper.writeValueAsString(OasisResponseVO.success(auth)));
             log.debug("成功退出登录");
         };
     }
 
     private AuthenticationFailureHandler jsonLoginFailureHandler() {
         return (req, res, exp) -> {
+            log.error("loginFailure exception : {}",exp.getMessage());
             res.setStatus(HttpStatus.UNAUTHORIZED.value());
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
             res.setCharacterEncoding("UTF-8");
-            OasisResponseVO oasisResponseVO = new OasisResponseVO(401,"authentication failed",exp.getMessage());
-            res.getWriter().println(objectMapper.writeValueAsString(oasisResponseVO));
+            res.getWriter().println(objectMapper.writeValueAsString(OasisResponseVO.error(401,"authentication failed")));
         };
     }
 
