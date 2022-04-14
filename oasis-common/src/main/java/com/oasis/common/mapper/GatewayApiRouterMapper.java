@@ -1,7 +1,7 @@
 package com.oasis.common.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.oasis.common.entity.GatewayApiRouter;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.oasis.common.entity.GatewayApiRouter;
  * </p>
  *
  * @author Neal
- * @since 2022-04-08
+ * @since 2022-04-14
  */
 public interface GatewayApiRouterMapper extends BaseMapper<GatewayApiRouter> {
 

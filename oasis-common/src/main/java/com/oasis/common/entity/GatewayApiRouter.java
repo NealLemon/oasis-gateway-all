@@ -2,7 +2,6 @@ package com.oasis.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Neal
- * @since 2022-04-08
+ * @since 2022-04-14
  */
 @TableName("gateway_api_router")
 public class GatewayApiRouter implements Serializable {
@@ -87,6 +86,21 @@ public class GatewayApiRouter implements Serializable {
     private Integer apiGroupId;
 
     /**
+     * 路由描述
+     */
+    private String routerDesc;
+
+    /**
+     * 路由请求体示例
+     */
+    private String routerRequestBody;
+
+    /**
+     * 路由响应体示例
+     */
+    private String routerResponseBody;
+
+    /**
      * 用户ID 用于控制API 创建权限
      */
     private String createUser;
@@ -109,7 +123,6 @@ public class GatewayApiRouter implements Serializable {
     /**
      * 是否删除 1、删除 0、未删除
      */
-    @TableLogic
     private Integer isDeleted;
 
 
@@ -217,6 +230,30 @@ public class GatewayApiRouter implements Serializable {
         this.apiGroupId = apiGroupId;
     }
 
+    public String getRouterDesc() {
+        return routerDesc;
+    }
+
+    public void setRouterDesc(String routerDesc) {
+        this.routerDesc = routerDesc;
+    }
+
+    public String getRouterRequestBody() {
+        return routerRequestBody;
+    }
+
+    public void setRouterRequestBody(String routerRequestBody) {
+        this.routerRequestBody = routerRequestBody;
+    }
+
+    public String getRouterResponseBody() {
+        return routerResponseBody;
+    }
+
+    public void setRouterResponseBody(String routerResponseBody) {
+        this.routerResponseBody = routerResponseBody;
+    }
+
     public String getCreateUser() {
         return createUser;
     }
@@ -273,6 +310,9 @@ public class GatewayApiRouter implements Serializable {
         ", consumesType=" + consumesType +
         ", producesType=" + producesType +
         ", apiGroupId=" + apiGroupId +
+        ", routerDesc=" + routerDesc +
+        ", routerRequestBody=" + routerRequestBody +
+        ", routerResponseBody=" + routerResponseBody +
         ", createUser=" + createUser +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +

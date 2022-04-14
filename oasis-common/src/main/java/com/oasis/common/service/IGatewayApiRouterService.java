@@ -1,8 +1,7 @@
 package com.oasis.common.service;
 
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.oasis.common.entity.GatewayApiRouter;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -10,7 +9,7 @@ import com.oasis.common.entity.GatewayApiRouter;
  * </p>
  *
  * @author Neal
- * @since 2022-04-08
+ * @since 2022-04-14
  */
 public interface IGatewayApiRouterService extends IService<GatewayApiRouter> {
 
