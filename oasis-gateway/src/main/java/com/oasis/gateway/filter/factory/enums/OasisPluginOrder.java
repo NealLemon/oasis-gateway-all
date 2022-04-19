@@ -1,4 +1,4 @@
-package com.oasis.gateway.enums;
+package com.oasis.gateway.filter.factory.enums;
 
 
 /**

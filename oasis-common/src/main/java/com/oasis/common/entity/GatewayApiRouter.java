@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Neal
- * @since 2022-04-14
+ * @since 2022-04-19
  */
 @TableName("gateway_api_router")
 public class GatewayApiRouter implements Serializable {
@@ -79,6 +79,11 @@ public class GatewayApiRouter implements Serializable {
      * 生产类别
      */
     private String producesType;
+
+    /**
+     * 服务ID
+     */
+    private Integer serviceId;
 
     /**
      * 组ID
@@ -222,6 +227,14 @@ public class GatewayApiRouter implements Serializable {
         this.producesType = producesType;
     }
 
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
+    }
+
     public Integer getApiGroupId() {
         return apiGroupId;
     }
@@ -309,6 +322,7 @@ public class GatewayApiRouter implements Serializable {
         ", protocol=" + protocol +
         ", consumesType=" + consumesType +
         ", producesType=" + producesType +
+        ", serviceId=" + serviceId +
         ", apiGroupId=" + apiGroupId +
         ", routerDesc=" + routerDesc +
         ", routerRequestBody=" + routerRequestBody +

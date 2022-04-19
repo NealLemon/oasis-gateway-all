@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oasis.common.mapper.GatewayRouterInitDTOMapper">
+    <resultMap type="com.oasis.common.entity.GatewayRouterInitDTO" id="allRoutersAndPlugin">
+<!--        <id column="api_id" property="apiId" />-->
+        <constructor>
+            <idArg column="api_id" javaType="int"/>
+        </constructor>
+        <association property="gatewayGroup" javaType="com.oasis.common.entity.GatewayGroup">
+            <id column="api_group_id" property="apiGroupId" />
+            <result column="group_name" property="groupName" />
+            <result column="group_version" property="groupVersion" />
+            <result column="create_user" property="createUser" />
+            <result column="create_time" property="createTime" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="is_deleted" property="isDeleted" />
+        </association>
+        <association property="gatewayService" javaType="com.oasis.common.entity.GatewayService">
+            <id column="service_id" property="serviceId" />
+            <result column="service_name" property="serviceName" />
+            <result column="service_version" property="serviceVersion" />
+            <result column="service_nodes" property="serviceNodes" />
+            <result column="create_user" property="createUser" />
+            <result column="create_time" property="createTime" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="is_deleted" property="isDeleted" />
+        </association>
+        <association property="gatewayApiRouter" javaType="com.oasis.common.entity.GatewayApiRouter">
+            <id column="api_router_id" property="apiRouterId" />
+            <result column="router_version" property="routerVersion" />
+            <result column="router_name" property="routerName" />
+            <result column="router_path" property="routerPath" />
+            <result column="request_method" property="requestMethod" />
+            <result column="router_type" property="routerType" />
+            <result column="router_upstream_path" property="routerUpstreamPath" />
+            <result column="router_upstream_url" property="routerUpstreamUrl" />
+            <result column="router_upstream_service" property="routerUpstreamService" />
+            <result column="protocol" property="protocol" />
+            <result column="consumes_type" property="consumesType" />
+            <result column="produces_type" property="producesType" />
+            <result column="service_id" property="serviceId" />
+            <result column="api_group_id" property="apiGroupId" />
+            <result column="router_desc" property="routerDesc" />
+            <result column="router_request_body" property="routerRequestBody" />
+            <result column="router_response_body" property="routerResponseBody" />
+            <result column="create_user" property="createUser" />
+            <result column="create_time" property="createTime" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="is_deleted" property="isDeleted" />
+        </association>
+        <collection property="gatewayApiPluginList" ofType="com.oasis.common.entity.GatewayApiPlugin">
+            <id column="plugin_id" property="pluginId" />
+            <result column="api_router_id" property="apiRouterId" />
+            <result column="plugin_name" property="pluginName" />
+            <result column="plugin_configuration" property="pluginConfiguration" typeHandler="com.oasis.common.handler.JacksonTypeHandler" />
+            <result column="plugin_type" property="pluginType" />
+            <result column="plugin_order" property="pluginOrder" />
+            <result column="plugin_enabled" property="pluginEnabled" />
+            <result column="create_user" property="createUser" />
+            <result column="create_time" property="createTime" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="is_origin" property="isOrigin" />
+            <result column="is_deleted" property="isDeleted" />
+        </collection>
+    </resultMap>
+
+
+    <select id="getAllRoutersAndPlugin" resultMap="allRoutersAndPlugin">
+        SELECT
+        t1.api_group_id  as api_id,
+        t1.*, t2.*, t3.*, t4.*
+        FROM
+        gateway_api_router t1
+        LEFT JOIN
+        gateway_api_plugin t2 ON t1.api_router_id = t2.api_router_id
+        AND t2.plugin_enabled = 1
+        LEFT JOIN
+        gateway_group t3 ON t3.api_group_id = t1.api_group_id
+        LEFT JOIN
+        gateway_service t4 ON t4.service_id = t1.service_id
+        AND t1.router_type = 2
+        WHERE
+        <if test="apiId != null">
+            t1.api_router_id = #{apiId} AND
+        </if>
+        t1.is_deleted = 0
+    </select>
+</mapper>

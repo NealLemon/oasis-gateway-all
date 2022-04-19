@@ -1,6 +1,6 @@
 package com.oasis.gateway.filter.factory;
 
-import com.oasis.gateway.enums.OasisPluginOrder;
+import com.oasis.gateway.filter.factory.enums.OasisPluginOrder;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 

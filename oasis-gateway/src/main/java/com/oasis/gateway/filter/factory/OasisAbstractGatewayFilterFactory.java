@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @ClassName OasisAbstractGatewayFilterFactory
- * @Description 所有插件 Plugin(Filter) 抽奖类
+ * @Description 所有插件 Plugin(Filter) 抽象类
  * @Author zhushaobin
  * @Date 2022/4/8 20:48
  */
