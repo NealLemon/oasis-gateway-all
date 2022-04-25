@@ -15,6 +15,10 @@ public abstract class OasisAbstractGatewayFilterFactory extends AbstractGatewayF
 
     public static final String CONFIG_KEY = "configuration";
 
+    public OasisAbstractGatewayFilterFactory() {
+        super(OasisAbstractGatewayFilterFactory.Config.class);
+    }
+
     @Override
     public List<String> shortcutFieldOrder() {
         return Arrays.asList(CONFIG_KEY);

@@ -40,8 +40,7 @@ public class GatewayApiPlugin implements Serializable {
     /**
      * plugin相关配置
      */
-    @TableField(typeHandler = JacksonTypeHandler.class,jdbcType = JdbcType.JAVA_OBJECT)
-    private JsonNode pluginConfiguration;
+    private String pluginConfiguration;
 
     /**
      * plugin 定义的类别
@@ -114,11 +113,11 @@ public class GatewayApiPlugin implements Serializable {
         this.pluginName = pluginName;
     }
 
-    public JsonNode getPluginConfiguration() {
+    public String getPluginConfiguration() {
         return pluginConfiguration;
     }
 
-    public void setPluginConfiguration(JsonNode pluginConfiguration) {
+    public void setPluginConfiguration(String pluginConfiguration) {
         this.pluginConfiguration = pluginConfiguration;
     }
 

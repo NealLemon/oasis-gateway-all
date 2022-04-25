@@ -28,7 +28,7 @@ CREATE TABLE `gateway_api_plugin` (
   `plugin_id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `api_router_id` int DEFAULT NULL COMMENT 'api_id',
   `plugin_name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '插件英文属性名',
-  `plugin_configuration` json DEFAULT NULL COMMENT 'plugin相关配置',
+  `plugin_configuration` TEXT DEFAULT NULL COMMENT 'plugin相关配置',
   `plugin_type` tinyint DEFAULT '0' COMMENT 'plugin 定义的类别 0 原生插件 1 自定义插件',
   `plugin_order` tinyint DEFAULT NULL COMMENT '插件顺序',
   `plugin_enabled` tinyint DEFAULT '1' COMMENT '是否启用 0 否 1 是',

@@ -55,7 +55,7 @@
             <id column="plugin_id" property="pluginId" />
             <result column="api_router_id" property="apiRouterId" />
             <result column="plugin_name" property="pluginName" />
-            <result column="plugin_configuration" property="pluginConfiguration" typeHandler="com.oasis.common.handler.JacksonTypeHandler" />
+            <result column="plugin_configuration" property="pluginConfiguration"/>
             <result column="plugin_type" property="pluginType" />
             <result column="plugin_order" property="pluginOrder" />
             <result column="plugin_enabled" property="pluginEnabled" />
