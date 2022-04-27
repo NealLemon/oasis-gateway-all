@@ -1,6 +1,5 @@
 package com.oasis.gateway.filter.factory;
 
-import com.oasis.gateway.filter.factory.enums.OasisPluginOrder;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,7 @@ public class SetResponseHeadersGatewayFilterFactory extends OasisAbstractGateway
         return new OrderedGatewayFilter((exchange, chain) -> {
                 return chain.filter(exchange)
                         .then(Mono.fromRunnable(() -> addHeaders(exchange.getResponse().getHeaders(),headersMap)));
-        }, OasisPluginOrder.JSON_HANDLE_ORDER.getOrder());
+        }, -10);
     }
 
     private void addHeaders(HttpHeaders headers, Map<String,String> headersMap) {

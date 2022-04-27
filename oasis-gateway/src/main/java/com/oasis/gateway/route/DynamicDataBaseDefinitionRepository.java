@@ -38,6 +38,7 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
     @PostConstruct
     public void initOasisGateway() {
         List<GatewayRouterInitDTO> list = gatewayRouterInitDTOMapper.getAllRoutersAndPlugin(null);
+
         System.out.println(list);
     }
     private final Map<String, RouteDefinition> routes = synchronizedMap(
