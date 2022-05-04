@@ -49,9 +49,10 @@
             <result column="create_time" property="createTime" />
             <result column="update_time" property="updateTime" />
             <result column="update_user" property="updateUser" />
+            <result column="is_enabled" property="isEnabled" />
             <result column="is_deleted" property="isDeleted" />
         </association>
-        <collection property="gatewayApiPluginList" ofType="com.oasis.common.entity.GatewayApiPlugin">
+        <collection property="gatewayApiPlugins" ofType="com.oasis.common.entity.GatewayApiPlugin">
             <id column="plugin_id" property="pluginId" />
             <result column="api_router_id" property="apiRouterId" />
             <result column="plugin_name" property="pluginName" />

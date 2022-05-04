@@ -130,6 +130,18 @@ public class GatewayApiRouter implements Serializable {
      */
     private Integer isDeleted;
 
+    /**
+     * 是否启用 1 启用 0 不启用
+     */
+    private boolean isEnabled;
+
+    public boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 
     public Integer getApiRouterId() {
         return apiRouterId;

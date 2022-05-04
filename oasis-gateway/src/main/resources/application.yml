@@ -38,6 +38,3 @@ spring:
           uri: http://127.0.0.1:8081
           predicates:
             - Path=/auth/{segment}
-          filters:
-            - SetRequestHeader=X-Request-Blue, Blue
-            - SetResponseHeader=X-Response-Red, Red

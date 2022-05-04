@@ -43,7 +43,7 @@ public class GatewayApiPlugin implements Serializable {
     private String pluginConfiguration;
 
     /**
-     * plugin 定义的类别
+     * plugin 定义的类别 0 Predicate  1 filter
      */
     private Integer pluginType;
 
@@ -55,7 +55,7 @@ public class GatewayApiPlugin implements Serializable {
     /**
      * 是否启用 0 否 1 是
      */
-    private Integer pluginEnabled;
+    private boolean pluginEnabled;
 
     /**
      * 用户ID 用于控制API 创建权限
@@ -80,7 +80,7 @@ public class GatewayApiPlugin implements Serializable {
     /**
      * 是否是原生 1 是 0 否
      */
-    private Integer isOrigin;
+    private boolean isOrigin;
 
     /**
      * 是否删除 1 是 0 否
@@ -137,11 +137,11 @@ public class GatewayApiPlugin implements Serializable {
         this.pluginOrder = pluginOrder;
     }
 
-    public Integer getPluginEnabled() {
+    public boolean isPluginEnabled() {
         return pluginEnabled;
     }
 
-    public void setPluginEnabled(Integer pluginEnabled) {
+    public void setPluginEnabled(boolean pluginEnabled) {
         this.pluginEnabled = pluginEnabled;
     }
 
@@ -177,12 +177,12 @@ public class GatewayApiPlugin implements Serializable {
         this.updateUser = updateUser;
     }
 
-    public Integer getIsOrigin() {
+    public boolean isOrigin() {
         return isOrigin;
     }
 
-    public void setIsOrigin(Integer isOrigin) {
-        this.isOrigin = isOrigin;
+    public void setOrigin(boolean origin) {
+        isOrigin = origin;
     }
 
     public Integer getIsDeleted() {

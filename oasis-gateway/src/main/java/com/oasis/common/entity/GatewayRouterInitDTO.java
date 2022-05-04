@@ -22,7 +22,7 @@ public class GatewayRouterInitDTO {
 
     GatewayApiRouter gatewayApiRouter;
 
-    List<GatewayApiPlugin> gatewayApiPluginList;
+    List<GatewayApiPlugin> gatewayApiPlugins;
 
     public GatewayGroup getGatewayGroup() {
         return gatewayGroup;
@@ -48,13 +48,19 @@ public class GatewayRouterInitDTO {
         this.gatewayApiRouter = gatewayApiRouter;
     }
 
-    public List<GatewayApiPlugin> getGatewayApiPluginList() {
-        return gatewayApiPluginList;
+    public Integer getApiId() {
+        return apiId;
     }
 
-    public void setGatewayApiPluginList(List<GatewayApiPlugin> gatewayApiPluginList) {
-        this.gatewayApiPluginList = gatewayApiPluginList;
+    public void setApiId(Integer apiId) {
+        this.apiId = apiId;
     }
 
+    public List<GatewayApiPlugin> getGatewayApiPlugins() {
+        return gatewayApiPlugins;
+    }
 
+    public void setGatewayApiPlugins(List<GatewayApiPlugin> gatewayApiPlugins) {
+        this.gatewayApiPlugins = gatewayApiPlugins;
+    }
 }

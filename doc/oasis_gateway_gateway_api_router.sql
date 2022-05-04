@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `oasis_gateway` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `oasis_gateway`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
 -- Host: localhost    Database: oasis_gateway
@@ -46,6 +44,7 @@ CREATE TABLE `gateway_api_router` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `update_user` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID 用于控制API 修改权限',
+  `is_enabled` tinyint DEFAULT '1',
   `is_deleted` tinyint DEFAULT '0' COMMENT '是否删除 1、删除 0、未删除',
   PRIMARY KEY (`api_router_id`),
   KEY `api_group_id_index` (`api_group_id`)
@@ -58,7 +57,7 @@ CREATE TABLE `gateway_api_router` (
 
 LOCK TABLES `gateway_api_router` WRITE;
 /*!40000 ALTER TABLE `gateway_api_router` DISABLE KEYS */;
-INSERT INTO `gateway_api_router` VALUES (1,'v1.0.0','testRouter','/test','POST',1,'/test','http://127.0.0.1',NULL,1,'application/json','application/json',NULL,1,'测试Router','{\"id\":\"123\",\"name\":\"test_request\",\"price\":\"100\",\"tags\":[\"hello\",\"world\"]}','{\"id\":\"321\",\"name\":\"test_response\",\"price\":\"200\",\"tags\":[\"hello world\",\"world hello\"],\"responseAdd\":{\"res1\":\"1\"}}',NULL,'2022-04-14 03:52:20','2022-04-14 03:52:20',NULL,0);
+INSERT INTO `gateway_api_router` VALUES (1,'v1.0.0','testRouter','/test','POST',1,'/test','http://127.0.0.1',NULL,1,'application/json','application/json',NULL,1,'测试Router','{\"id\":\"123\",\"name\":\"test_request\",\"price\":\"100\",\"tags\":[\"hello\",\"world\"]}','{\"id\":\"321\",\"name\":\"test_response\",\"price\":\"200\",\"tags\":[\"hello world\",\"world hello\"],\"responseAdd\":{\"res1\":\"1\"}}',NULL,'2022-04-14 03:52:20','2022-04-14 03:52:20',NULL,1,0);
 /*!40000 ALTER TABLE `gateway_api_router` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -71,4 +70,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-19 21:41:51
+-- Dump completed on 2022-05-04 11:00:02
