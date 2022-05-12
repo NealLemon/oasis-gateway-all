@@ -13,6 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OasisGatewayBootStrap {
 
     public static void main(String[] args) {
-        SpringApplication.run(OasisGatewayBootStrap.class);
+         SpringApplication.run(OasisGatewayBootStrap.class);
     }
 }

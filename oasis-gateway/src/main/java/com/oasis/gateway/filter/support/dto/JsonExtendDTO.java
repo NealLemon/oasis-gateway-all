@@ -2,6 +2,7 @@ package com.oasis.gateway.filter.support.dto;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,13 +11,15 @@ import java.util.Map;
  * @Author zhushaobin
  * @Date 2022/4/11 15:38
  */
-public class JsonExtendDTO {
+public class JsonExtendDTO implements Serializable {
 
     //新增Json字段
     private Map<String,ArrayNode> addJsonNodes;
     //删除JSON字段
     private ArrayNode deleteJsonNodes;
 
+    public JsonExtendDTO() {
+    }
 
     public JsonExtendDTO(Map<String, ArrayNode> addJsonNodes, ArrayNode deleteJsonNodes) {
         this.addJsonNodes = addJsonNodes;

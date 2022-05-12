@@ -2,6 +2,8 @@ package com.oasis.gateway.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oasis.common.mapper.GatewayRouterInitDTOMapper;
+import com.oasis.gateway.filter.factory.JsonHandleGatewayFilterFactory;
+import com.oasis.gateway.filter.factory.SetResponseHeadersGatewayFilterFactory;
 import com.oasis.gateway.route.DynamicDataBaseDefinitionRepository;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -24,6 +26,16 @@ public class OasisGatewayAutoConfiguration {
     public DynamicDataBaseDefinitionRepository dynamicDataBaseDefinitionRepository(GatewayRouterInitDTOMapper gatewayRouterInitDTOMapper,
                                                                                    ObjectMapper objectMapper) {
         return new DynamicDataBaseDefinitionRepository(gatewayRouterInitDTOMapper,objectMapper);
+    }
 
+
+    @Bean
+    public JsonHandleGatewayFilterFactory jsonHandleGatewayFilterFactory(ObjectMapper objectMapper) {
+        return new JsonHandleGatewayFilterFactory(objectMapper);
+    }
+
+    @Bean
+    public SetResponseHeadersGatewayFilterFactory setResponseHeadersGatewayFilterFactory(ObjectMapper objectMapper) {
+        return new SetResponseHeadersGatewayFilterFactory(objectMapper);
     }
 }

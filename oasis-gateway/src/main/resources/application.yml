@@ -38,3 +38,7 @@ spring:
           uri: http://127.0.0.1:8081
           predicates:
             - Path=/auth/{segment}
+        - id: setrequestheader_route1
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/auth1/{segment}

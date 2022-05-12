@@ -1,11 +1,14 @@
 package com.oasis.gateway.filter.factory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,21 +17,27 @@ import java.util.Map;
  * @Author zhushaobin
  * @Date 2022/4/19 11:29
  */
+@RequiredArgsConstructor
+@Slf4j
 public class SetResponseHeadersGatewayFilterFactory extends OasisAbstractGatewayFilterFactory{
 
+    private final ObjectMapper objectMapper;
 
     @Override
     public GatewayFilter apply(Config config) {
-        Map<String,String> headersMap = new HashMap<>();
-        return new OrderedGatewayFilter((exchange, chain) -> {
-                return chain.filter(exchange)
-                        .then(Mono.fromRunnable(() -> addHeaders(exchange.getResponse().getHeaders(),headersMap)));
-        }, -10);
+        try {
+            Map<String,Object> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
+            return new OrderedGatewayFilter((exchange, chain) -> chain.filter(exchange)
+                    .then(Mono.fromRunnable(() -> addHeaders(exchange.getResponse().getHeaders(),headersMap))), -10);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private void addHeaders(HttpHeaders headers, Map<String,String> headersMap) {
-        for(Map.Entry<String, String> entry : headersMap.entrySet()) {
-            headers.set(entry.getKey(),entry.getValue());
+    private void addHeaders(HttpHeaders headers, Map<String,Object> mapHeaders) {
+        for(Map.Entry<String, Object> entry : mapHeaders.entrySet()) {
+            headers.set(entry.getKey(),String.valueOf(entry.getValue()));
         }
     }
 }

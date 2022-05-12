@@ -5,6 +5,7 @@ import com.oasis.common.entity.GatewayApiPlugin;
 import com.oasis.common.entity.GatewayApiRouter;
 import com.oasis.common.entity.GatewayRouterInitDTO;
 import com.oasis.common.mapper.GatewayRouterInitDTOMapper;
+import com.oasis.gateway.enums.GatewayBaseConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -16,12 +17,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Collections.synchronizedMap;
 
@@ -48,7 +50,7 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
 
 
     private final Map<String, RouteDefinition> routes = synchronizedMap(
-            new LinkedHashMap<String, RouteDefinition>());
+            new LinkedHashMap<>());
 
 
     @PostConstruct
@@ -72,7 +74,21 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
             RouteDefinition route = new RouteDefinition();
             List<PredicateDefinition> predicates = initRoutePredicates(gatewayRouterInitDTO);
             List<FilterDefinition> filterDefinitions = initFilterDefinitions(gatewayRouterInitDTO.getGatewayApiPlugins().stream()
-                    .filter(gatewayApiPlugin -> gatewayApiPlugin.isPluginEnabled() && 1 == gatewayApiPlugin.getPluginType()).collect(Collectors.toList()));
+                    .filter(gatewayApiPlugin ->
+                            gatewayApiPlugin.isPluginEnabled()
+                                    && GatewayBaseConstants.FILTER_TYPE == gatewayApiPlugin.getPluginType())
+                    .collect(Collectors.toList()));
+            route.setFilters(filterDefinitions);
+            route.setPredicates(predicates);
+            route.setId(GatewayBaseConstants.ROUTE_PREFIX + gatewayRouterInitDTO.getApiId());
+            try {
+                route.setUri(new URI(gatewayRouterInitDTO.getGatewayApiRouter().getRouterUpstreamUrl()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            //TODO
+            //route.setMetadata();
+            save(Mono.just(route)).subscribe();
         });
         log.info("[OASIS GATEWAY] end init Predicate");
     }
@@ -87,7 +103,20 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
      *
     */
     private List<FilterDefinition> initFilterDefinitions(List<GatewayApiPlugin> gatewayApiPlugins) {
-        return null;
+        List<FilterDefinition> filterDefinitions = new ArrayList<>();
+        /**spring cloud 原生filter**/
+        gatewayApiPlugins.stream().forEach(gatewayApiPlugin -> {
+            if(gatewayApiPlugin.isOrigin()) {
+                filterDefinitions.add(new FilterDefinition(gatewayApiPlugin.getPluginConfiguration()));
+            }else{           /**自定义 filter**/
+                    FilterDefinition filterDefinition = new FilterDefinition();
+                    filterDefinition.setName(gatewayApiPlugin.getPluginName());
+                    filterDefinition.setArgs(Map.of(GatewayBaseConstants.CONFIG_KEY,gatewayApiPlugin.getPluginConfiguration()));
+                    filterDefinitions.add(filterDefinition);
+
+            }
+        });
+        return filterDefinitions;
     }
 
 
@@ -114,7 +143,7 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
          * 装备插件类 路由信息
          */
         gatewayRouterInitDTO.getGatewayApiPlugins().stream()
-                .filter(gatewayApiPlugin -> gatewayApiPlugin.isPluginEnabled() && 0 == gatewayApiPlugin.getPluginType())
+                .filter(gatewayApiPlugin -> gatewayApiPlugin.isPluginEnabled() && GatewayBaseConstants.PREDICATE_TYPE == gatewayApiPlugin.getPluginType())
                 .forEach(gatewayApiPlugin -> {
                     predicates.add(assemblePredicateDefinition(gatewayApiPlugin.getPluginName(),gatewayApiPlugin.getPluginConfiguration()));
                 });

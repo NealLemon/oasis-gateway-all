@@ -1,5 +1,6 @@
 package com.oasis.gateway.filter.factory;
 
+import com.oasis.gateway.enums.GatewayBaseConstants;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 
 import java.util.Arrays;
@@ -13,15 +14,13 @@ import java.util.List;
  */
 public abstract class OasisAbstractGatewayFilterFactory extends AbstractGatewayFilterFactory<OasisAbstractGatewayFilterFactory.Config> {
 
-    public static final String CONFIG_KEY = "configuration";
-
     public OasisAbstractGatewayFilterFactory() {
         super(OasisAbstractGatewayFilterFactory.Config.class);
     }
 
     @Override
     public List<String> shortcutFieldOrder() {
-        return Arrays.asList(CONFIG_KEY);
+        return Arrays.asList(GatewayBaseConstants.CONFIG_KEY);
     }
 
     //对应 插件中的 plugin_configuration字段

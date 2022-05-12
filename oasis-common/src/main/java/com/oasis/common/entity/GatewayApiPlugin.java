@@ -1,9 +1,9 @@
 package com.oasis.common.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.ibatis.type.JdbcType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -211,4 +211,5 @@ public class GatewayApiPlugin implements Serializable {
         ", isDeleted=" + isDeleted +
         "}";
     }
+
 }
