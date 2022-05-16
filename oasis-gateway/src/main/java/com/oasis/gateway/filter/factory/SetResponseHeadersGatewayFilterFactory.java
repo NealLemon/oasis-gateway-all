@@ -2,13 +2,19 @@ package com.oasis.gateway.filter.factory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.RewriteResponseHeaderGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,19 +31,20 @@ public class SetResponseHeadersGatewayFilterFactory extends OasisAbstractGateway
 
     @Override
     public GatewayFilter apply(Config config) {
-        try {
-            Map<String,Object> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
+       //     Map<String,Object> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
             return new OrderedGatewayFilter((exchange, chain) -> chain.filter(exchange)
-                    .then(Mono.fromRunnable(() -> addHeaders(exchange.getResponse().getHeaders(),headersMap))), -10);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
+                    .then(Mono.fromRunnable(()-> rewriteHeaders(exchange,config))),10);
     }
 
-    private void addHeaders(HttpHeaders headers, Map<String,Object> mapHeaders) {
-        for(Map.Entry<String, Object> entry : mapHeaders.entrySet()) {
-            headers.set(entry.getKey(),String.valueOf(entry.getValue()));
+    protected void rewriteHeaders(ServerWebExchange exchange, Config config) {
+        try {
+            Map<String,String> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
+            HttpHeaders responseHeaders = exchange.getResponse().getHeaders();
+           for(Map.Entry<String,String> entry : headersMap.entrySet()) {
+            responseHeaders.put(entry.getKey(), ImmutableList.of(entry.getValue()));
+        }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 }

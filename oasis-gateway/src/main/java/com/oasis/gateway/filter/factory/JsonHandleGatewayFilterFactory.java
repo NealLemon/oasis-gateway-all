@@ -1,16 +1,22 @@
 package com.oasis.gateway.filter.factory;
 
-import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oasis.gateway.filter.support.dto.JsonHandleDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.util.Assert;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.function.Consumer;
+
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.CACHED_SERVER_HTTP_REQUEST_DECORATOR_ATTR;
 
 /**
  * @ClassName OasisJsonHandleFilter
@@ -27,13 +33,9 @@ public class JsonHandleGatewayFilterFactory extends OasisAbstractGatewayFilterFa
 
     @Override
     public GatewayFilter apply(Config config) {
-        JsonHandleDTO jsonHandleDTO = null;
-        try {
-            jsonHandleDTO = objectMapper.readValue(config.getConfiguration(), JsonHandleDTO.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(jsonHandleDTO);
-        return new OrderedGatewayFilter((exchange, chain) -> chain.filter(exchange), 10);
+        return new OrderedGatewayFilter((exchange, chain) -> {
+            System.out.println(config.getConfiguration());
+            return chain.filter(exchange);
+        }, 10);
     }
 }
