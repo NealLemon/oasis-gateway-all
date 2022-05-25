@@ -1,12 +1,11 @@
 package com.oasis.admin.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @ClassName TestController
@@ -17,13 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@Validated
 public class TestController {
 
 
 
     @PostMapping("/test")
-    public String test(HttpServletRequest httpServletRequest){
-        System.out.println(httpServletRequest);
+    public String test(@Valid @RequestBody ProductTest test){
         return "hello world";
     }
 }

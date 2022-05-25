@@ -33,7 +33,7 @@ public class SetResponseHeadersGatewayFilterFactory extends OasisAbstractGateway
     public GatewayFilter apply(Config config) {
        //     Map<String,Object> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
             return new OrderedGatewayFilter((exchange, chain) -> chain.filter(exchange)
-                    .then(Mono.fromRunnable(()-> rewriteHeaders(exchange,config))),10);
+                    .then(Mono.fromRunnable(()-> rewriteHeaders(exchange,config))),11);
     }
 
     protected void rewriteHeaders(ServerWebExchange exchange, Config config) {
