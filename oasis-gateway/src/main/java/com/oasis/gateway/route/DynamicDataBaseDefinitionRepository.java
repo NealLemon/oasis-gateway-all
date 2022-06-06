@@ -1,5 +1,6 @@
 package com.oasis.gateway.route;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oasis.common.entity.GatewayApiPlugin;
 import com.oasis.common.entity.GatewayApiRouter;
@@ -104,18 +105,21 @@ public class DynamicDataBaseDefinitionRepository implements RouteDefinitionRepos
     */
     private List<FilterDefinition> initFilterDefinitions(List<GatewayApiPlugin> gatewayApiPlugins) {
         List<FilterDefinition> filterDefinitions = new ArrayList<>();
+        try {
         /**spring cloud 原生filter**/
-        gatewayApiPlugins.stream().forEach(gatewayApiPlugin -> {
-            if(gatewayApiPlugin.isOrigin()) {
-                filterDefinitions.add(new FilterDefinition(gatewayApiPlugin.getPluginConfiguration()));
-            }else{           /**自定义 filter**/
+            for (GatewayApiPlugin gatewayApiPlugin : gatewayApiPlugins) {
+                if(gatewayApiPlugin.isOrigin()) {
+                    filterDefinitions.add(new FilterDefinition(gatewayApiPlugin.getPluginConfiguration()));
+                }else{           /**自定义 filter**/
                     FilterDefinition filterDefinition = new FilterDefinition();
                     filterDefinition.setName(gatewayApiPlugin.getPluginName());
-                    filterDefinition.setArgs(Map.of(GatewayBaseConstants.CONFIG_KEY,gatewayApiPlugin.getPluginConfiguration()));
+                    filterDefinition.setArgs(Map.of(GatewayBaseConstants.CONFIG_KEY,objectMapper.writeValueAsString(gatewayApiPlugin)));
                     filterDefinitions.add(filterDefinition);
-
+                }
             }
-        });
+        } catch (JsonProcessingException e) {
+            log.error("Init Filter is error: {}",e);
+        }
         return filterDefinitions;
     }
 
