@@ -3,6 +3,7 @@ package com.oasis.gateway.filter.factory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import com.oasis.common.entity.GatewayApiPlugin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -38,7 +39,8 @@ public class SetResponseHeadersGatewayFilterFactory extends OasisAbstractGateway
 
     protected void rewriteHeaders(ServerWebExchange exchange, Config config) {
         try {
-            Map<String,String> headersMap = objectMapper.readValue(config.getConfiguration(), Map.class);
+            GatewayApiPlugin gatewayApiPlugin = objectMapper.readValue(config.getConfiguration(), GatewayApiPlugin.class);
+            Map<String,String> headersMap = objectMapper.readValue(gatewayApiPlugin.getPluginConfiguration(), Map.class);
             HttpHeaders responseHeaders = exchange.getResponse().getHeaders();
            for(Map.Entry<String,String> entry : headersMap.entrySet()) {
             responseHeaders.put(entry.getKey(), ImmutableList.of(entry.getValue()));

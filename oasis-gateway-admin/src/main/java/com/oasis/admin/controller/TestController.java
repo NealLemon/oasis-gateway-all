@@ -22,7 +22,7 @@ public class TestController {
 
 
     @PostMapping("/test")
-    public String test(@Valid @RequestBody ProductTest test){
-        return "hello world";
+    public String test(@RequestBody String test ){
+        return test;
     }
 }
