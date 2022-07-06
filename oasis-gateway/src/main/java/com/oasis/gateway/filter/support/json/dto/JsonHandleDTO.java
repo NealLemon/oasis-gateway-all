@@ -1,4 +1,4 @@
-package com.oasis.gateway.filter.support.dto;
+package com.oasis.gateway.filter.support.json.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
